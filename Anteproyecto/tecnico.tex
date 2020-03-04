@@ -1,0 +1,205 @@
+\documentclass[titlepage, 12pt, a4paper, oneside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+\usepackage[numbib]{tocbibind}
+\usepackage{tikz}
+\usepackage[top=1in, bottom=1.25in, left=1.25in, right=1.25in]{geometry}
+\usepackage{xcolor}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\textit{\color[rgb]{0.0,0.424,0.616}Nombre del estudiante}}
+\lhead{}
+\rfoot{}
+\renewcommand{\headrulewidth}{0pt}
+
+\usepackage{pgfgantt}
+
+\title{}
+\date{}
+\renewcommand{\familydefault}{\sfdefault}
+
+\begin{document}
+\thispagestyle{empty}
+\tikz[remember picture,overlay] \node[opacity=1.0,inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{Plantilla_AnteProyectoTFG-portada}};
+
+\begin{center}
+  \vspace{4cm}
+  {\color{white} \Huge \textbf{Paralelismo de Datos en el Intercomunicador intercomTM}}
+\end{center}
+
+\Large
+
+\vspace{16.5ex}
+\begin{tabular}{ll}
+  ~~~~~~~~~ & Nombre del estudiante
+\end{tabular}
+
+\vspace{1.2cm}
+\begin{tabular}{ll}
+  ~~~~~~~~~ & Grado en Ingeniería Informática
+\end{tabular}
+
+\vspace{1.1cm}
+\begin{tabular}{ll}
+  ~~~~~~~~~ & Vicente González Ruiz
+\end{tabular}
+
+\vspace{1.2cm}
+\begin{tabular}{ll}
+  ~~~~~~~~~ & Departamento de Informática
+\end{tabular}
+
+\vspace{0.95cm}
+\begin{tabular}{ll}
+  ~~~~~~~~~ & Trabajo Técnico
+\end{tabular}
+
+\vspace{0.95cm}
+\begin{tabular}{ll}
+  ~~~~~~~~~ & Paralelismo de Datos, Audio, Intercomunicador, \\
+  ~~~~~~~~~ & Procesamiento en Tiempo Real
+\end{tabular}
+
+\clearpage
+
+\tikz[remember picture,overlay] \node[opacity=1.0,inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{Plantilla_AnteProyectoTFG-paginas}};
+
+\normalsize
+
+\section{Introducción}
+Un intercomunicador (intercom en inglés), es un dispositivo que
+permite a dos o más usuarios comunicarse en tiempo real. Normalmente
+sólo transmiten sonido, aunque también pueden transmitir imágenes
+(vídeos). Se usan en los portales de las casas para saber quién está
+llamando en la puerta, lo usan los motoristas para hablar entre ellos
+cuando se desplazan y (lógicamente) llevan cascos, y se usan en
+aplicaciones de comunicación a través de Internet, como Skype,
+WhatsApp, etc.
+
+El intercomunicador intercomTM es una aplicación desarrollada en la
+Universidad de Almería por los alumnos de la asignatura de Tecnologías
+Multimedia~\cite{intercomTM}, y posee las siguientes características:
+\begin{enumerate}
+\item Permite transmitir audio mono y estereo.
+\item Permite elegir la frecuencia de muestreo.
+\item Se adapta al ancho de banda disponible, enviando una señal de
+  audio de calidad proporcional al ancho de banda.
+\item Permite controlar la latencia.
+\item Puede usarse en Internet.
+\end{enumerate}
+
+\section{Objetivos y justificación}
+El objetivo de este TFG es mejorar la implementación actual de
+intercomTM, aprovechando el paralelismo de
+datos~\cite{pacheco2011introduction}. Básicamente, se trata de
+aprovechar las posibilidades multicore de la mayoría de las
+computadoras actuales para incrementar el desempeño de intercomTM
+(por ejemplo, permitiendo mayores tasa de muestreo en dispositivos con
+poca potencia computacional, o aumentando las tasas de
+compresión). Más concretamente, los objetivos que se desean alcanzar
+son:
+\begin{enumerate}
+\item Reimplementar intercomTM usando el paradigma de programación de
+  paralelismo de datos, que básicamente consiste en aplicar el
+  algoritmo actualmente usado en la versión secuencial sobre bloques
+  de datos, de forma concurrente. Esto permitirá aprovechar un número
+  de cores de nuestro dispositivo superior a 1 (si los hubiera).
+\item Maximizar el balanceo de la carga de trabajo~\cite{workload}
+  entre los diferentes cores, en función de los diferentes parámetros
+  de funcionamiento que intercomTM posee.
+\end{enumerate}
+
+\section{Fases de desarrollo y estimación de su coste temporal}
+Se preveen las siguientes unidades de trabajo y temporizaciones (véase
+la Figura~\ref{fig:temporizacion}):
+\begin{enumerate}
+  \item {IDENTIFICACIÓN}: Identificación y comprensión de los
+    requerimientos y objetivos planteados (10 h).
+  \item {ANÁLISIS:} Estudio y análisis de la implementación actual de
+    intercomTM, comprendiendo los algoritmos que utiliza (60 h).
+  \item {APROVISIONAMIENTO}: Instalación y configuración del entorno
+    de desarrollo y ejecución. Básicamente, Linux y Python (10h).
+  \item {IMPLEMENTACIÓN}: Implementación de la versión paralela de
+    intercomTM, en sucesivas versiones con niveles incrementales de
+    paralelismo (60h).
+  \item {EVALUACIÓN}: Evaluación de la solución y cuantificación del
+    grado de consecución de los objetivos (30h).
+  \item {REDACCIÓN}: Redacción de la memoria (30h).
+\end{enumerate}
+
+\begin{figure}
+  \begin{center}
+    \resizebox{\columnwidth}{!}{
+      \begin{ganttchart}{1}{25}{10}
+        \gantttitle{Bloques de 10 horas (total, 250 h)}{25} \\
+        \gantttitlelist{1,...,25}{1} \\
+        \ganttbar{IDENTIFICACIÓN}{1}{2} \\ % 50h
+        \ganttlinkedbar{ANÁLISIS}{3}{9} \\ % 50 h
+        \ganttlinkedbar{APROVISIONAMIENTO}{10}{11} \\ % 50 h
+        \ganttlinkedbar{IMPLEMENTACIÓN}{12}{18} \\ % 50 h
+        \ganttlinkedbar{EVALUACIÓN}{19}{22} \\ % 50 h
+        \ganttlinkedbar{REDACCIÓN}{23}{25} % 50 h
+      \end{ganttchart}
+    }
+  \end{center}
+  \caption{Temporización del TFG.\label{fig:temporizacion}}
+\end{figure}
+
+\section{Requerimientos}
+Los requerimientos de la versión paralela de intercomTM son:
+
+\begin{itemize}
+\item Generales:
+  \begin{enumerate}
+  \item El estilo de programación debe seguir la norma
+    PEP-8~\cite{PEP8}.
+  \item El idioma usado, tanto para la definición de objetos, métodos,
+    variables, etc., como para la documentación (incluyendo los
+    comentarios en el código fuente) debe ser inglés.
+  \item Se usará el paragigma de programación orientado a
+    objetos~\cite{schach2008object} para ir obteniendo diferentes
+    aproximaciones sucesivas del resultado final.
+  \item El producto debe ejecutarse con éxito, al menos, en Linux,
+    Windows y OSX.
+  \end{enumerate}
+\item Específicos:
+  \begin{enumerate}
+  \item Deberán aprovecharse tantos cores como sea posible, siempre y
+    cuando esto no genere un decremento del desempeño.
+  \item Mediante experimentación, deberá comprobarse que la versión
+    paralela genera una carga máxima en los cores inferior a la carga
+    que genera la versión secuencial (que sólo corre en un core), para
+    un determinado conjunto (que puede cambiar) de parámetros de
+    funcionamiento.
+  \end{enumerate}
+\end{itemize}
+
+\section{Resultados esperados}
+Principalmente, se espera obtener la versión paralela de intercomTM.
+Este deberá satisfacer los requerimientos (en definitiva, los
+objetivos) planteados anteriormente, que se vefificarán mediante
+experimentación.  Se definirán diferentes configuraciones típicas (por
+ejemplo, (1) transmisión de audio mono, baja tasa de muestreo de 8000
+Hz, y bajo ancho de banda (2) tranmisión estereo, alta tasa de
+muestreo 48000 Hz, y ancho de banda no limitante) y se comprobará que
+los requerimientos específicos se consiguen en la solución encontrada.
+
+\section{Conclusiones esperadas}
+Básicamente, se tratará de concluir si el modelo de paralelismo de
+datos proporcionado por Python a través de su API
+multiprocessing~\cite{multiprocessing} es adacuado (o no) para
+conseguir los objetivos definidos (véase la
+Sección~\ref{sec:objetivos}).
+
+\bibliographystyle{plain}
+\bibliography{../bibliografia}
+
+\begin{center}
+  \textbf{Firma del director (codirector)}
+\end{center}
+
+\end{document}
