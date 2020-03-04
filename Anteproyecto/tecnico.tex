@@ -28,7 +28,7 @@
 
 \begin{center}
   \vspace{4cm}
-  {\color{white} \Huge \textbf{Paralelismo de Datos en el Intercomunicador intercomTM}}
+  {\color{white} \Huge \textbf{Paralelismo de Tareas en el Intercomunicador intercomTM}}
 \end{center}
 
 \Large
@@ -60,7 +60,7 @@
 
 \vspace{0.95cm}
 \begin{tabular}{ll}
-  ~~~~~~~~~ & Paralelismo de Datos, Audio, Intercomunicador, \\
+  ~~~~~~~~~ & Paralelismo de Tareas, Audio, Intercomunicador, \\
   ~~~~~~~~~ & Procesamiento en Tiempo Real
 \end{tabular}
 
@@ -71,6 +71,7 @@
 \normalsize
 
 \section{Introducción}
+\label{sec:intro}
 Un intercomunicador (intercom en inglés), es un dispositivo que
 permite a dos o más usuarios comunicarse en tiempo real. Normalmente
 sólo transmiten sonido, aunque también pueden transmitir imágenes
@@ -93,9 +94,10 @@ Multimedia~\cite{intercomTM}, y posee las siguientes características:
 \end{enumerate}
 
 \section{Objetivos y justificación}
+\label{sec:objetivos}
 El objetivo de este TFG es mejorar la implementación actual de
 intercomTM, aprovechando el paralelismo de
-datos~\cite{pacheco2011introduction}. Básicamente, se trata de
+tareas~\cite{pacheco2011introduction}. Básicamente, se trata de
 aprovechar las posibilidades multicore de la mayoría de las
 computadoras actuales para incrementar el desempeño de intercomTM
 (por ejemplo, permitiendo mayores tasa de muestreo en dispositivos con
@@ -104,9 +106,10 @@ compresión). Más concretamente, los objetivos que se desean alcanzar
 son:
 \begin{enumerate}
 \item Reimplementar intercomTM usando el paradigma de programación de
-  paralelismo de datos, que básicamente consiste en aplicar el
-  algoritmo actualmente usado en la versión secuencial sobre bloques
-  de datos, de forma concurrente. Esto permitirá aprovechar un número
+  paralelismo de tareas, que básicamente consiste en descomponer el
+  algoritmo usado (en intercomTM) en una serie de pasos
+  (subalgoritmos) que se ejecuten concurrentemente, básicamente,
+  formando un pipeline de tareas. Esto permitirá aprovechar un número
   de cores de nuestro dispositivo superior a 1 (si los hubiera).
 \item Maximizar el balanceo de la carga de trabajo~\cite{workload}
   entre los diferentes cores, en función de los diferentes parámetros
@@ -114,6 +117,7 @@ son:
 \end{enumerate}
 
 \section{Fases de desarrollo y estimación de su coste temporal}
+\label{sec:fases}
 Se preveen las siguientes unidades de trabajo y temporizaciones (véase
 la Figura~\ref{fig:temporizacion}):
 \begin{enumerate}
@@ -150,6 +154,7 @@ la Figura~\ref{fig:temporizacion}):
 \end{figure}
 
 \section{Requerimientos}
+\label{sec:requerimientos}
 Los requerimientos de la versión paralela de intercomTM son:
 
 \begin{itemize}
@@ -179,6 +184,7 @@ Los requerimientos de la versión paralela de intercomTM son:
 \end{itemize}
 
 \section{Resultados esperados}
+\label{sec:resultados}
 Principalmente, se espera obtener la versión paralela de intercomTM.
 Este deberá satisfacer los requerimientos (en definitiva, los
 objetivos) planteados anteriormente, que se vefificarán mediante
@@ -189,10 +195,11 @@ muestreo 48000 Hz, y ancho de banda no limitante) y se comprobará que
 los requerimientos específicos se consiguen en la solución encontrada.
 
 \section{Conclusiones esperadas}
+\label{sec:conclusiones}
 Básicamente, se tratará de concluir si el modelo de paralelismo de
-datos proporcionado por Python a través de su API
-multiprocessing~\cite{multiprocessing} es adacuado (o no) para
-conseguir los objetivos definidos (véase la
+tareas (ejecutadas mediante procesos) proporcionado por Python a
+través de su API multiprocessing~\cite{multiprocessing} es adacuado (o
+no) para conseguir los objetivos definidos (véase la
 Sección~\ref{sec:objetivos}).
 
 \bibliographystyle{plain}
